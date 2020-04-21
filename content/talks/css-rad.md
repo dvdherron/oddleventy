@@ -7,8 +7,8 @@ image:
   src: talks/mia-smashing19-rad.jpg
   alt: Miriam speaking at Smashing Conf NY
   width: 2240
-  height: 1493
-  position 75% 25%
+  height: 1323
+  position: top
 slides: https://sliiides.netlify.com/css-is-rad/
 tags:
   - Design
