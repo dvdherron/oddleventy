@@ -1,3 +1,5 @@
+@use '../config';
+
 /// # Form Fields & Inputs
 /// @group forms
 
@@ -8,10 +10,35 @@ textarea {
 }
 
 /// @group forms
-select {
+/* stylelint-disable-next-line selector-type-no-unknown */
+selectmenu {
   font: inherit;
   font-size: var(--xsmall);
   width: 100%;
+
+  &:focus {
+    @include config.focus-ring;
+  }
+
+  &::part(button) {
+    font: inherit;
+    width: 100%;
+  }
+
+  &::part(listbox) {
+    color: var(--bg);
+    background: var(--feature);
+  }
+}
+
+/* stylelint-disable-next-line selector-type-no-unknown */
+selectmenu option {
+  padding: var(--half-shim);
+
+  &:hover {
+    color: var(--feature);
+    background: var(--bg);
+  }
 }
 
 /// @group forms
