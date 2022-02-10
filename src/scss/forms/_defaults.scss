@@ -27,8 +27,25 @@ selectmenu {
 }
 
 /* stylelint-disable-next-line selector-type-no-unknown */
-selectmenu button {
+selectmenu [data-btn='select'] {
+  // using a custom property like this doesn't seem to work?
+  --button-padding: var(--shim);
+
+  padding: var(--quarter-shim) var(--shim);
+  position: relative;
   width: 100%;
+
+  &::after {
+    background: currentColor;
+    clip-path: polygon(10% 20%, 90% 20%, 50% 80%);
+    content: '';
+    height: var(--shim);
+    position: absolute;
+    transition: transform 0.2s ease-in-out;
+    transform-origin: center;
+    right: var(--shim);
+    width: var(--shim);
+  }
 }
 
 /* stylelint-disable-next-line selector-type-no-unknown */
