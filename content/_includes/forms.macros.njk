@@ -91,6 +91,11 @@ params:
   } | merge(attrs) -%}
   <selectmenu {{ utility.show_attrs(attrs) }}>
     {# {{- options -}} #}
+    <div slot="button" behavior="button" >
+      <button slot="selected-value" data-btn="">
+        <span  behavior="selected-value" ></span>
+      </button>
+    </div>
     {%- for option in options -%}
       <option value="{{ option }}" {{ 'selected' if loop.first }}>
         {{ option }}
