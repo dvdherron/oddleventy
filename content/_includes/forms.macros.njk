@@ -89,14 +89,19 @@ params:
     'name': name or id,
     'id': id
   } | merge(attrs) -%}
-  <select {{ utility.show_attrs(attrs) }}>
-    {{- options -}}
+  <selectmenu {{ utility.show_attrs(attrs) }}>
+    {# {{- options -}} #}
+    <div slot="button" behavior="button" >
+      <button slot="selected-value" data-btn="select">
+        <span  behavior="selected-value" ></span>
+      </button>
+    </div>
     {%- for option in options -%}
       <option value="{{ option }}" {{ 'selected' if loop.first }}>
         {{ option }}
       </option>
     {%- endfor -%}
-  </select>
+  </selectmenu>
 {%- endmacro %}
 
 {# @docs
@@ -127,14 +132,7 @@ params:
     default: '{}'
     note: Applied to the input
 #}
-{% macro radio(
-  label,
-  id,
-  group,
-  required=false,
-  attrs={},
-  input_attrs={}
-) %}
+{% macro radio(label, id, group, required = false, attrs = {}, input_attrs = {}) %}
   {{ input(
     id=id,
     type='radio',
@@ -172,12 +170,7 @@ params:
     type: object
     default: '{}'
 #}
-{% macro fieldset(
-  legend,
-  name,
-  content=none,
-  attrs={}
-) %}
+{% macro fieldset(legend, name, content = none, attrs = {}) %}
   {%- set content = content if (content != none) else caller() -%}
   <fieldset data-fieldset="{{ name or legend | slug }}">
     {%- if legend -%}
@@ -206,19 +199,14 @@ params:
     type: object
     default: '{}'
 #}
-{% macro field_label(
-  label,
-  id,
-  required=false,
-  attrs={}
-) %}
-<label for="{{ id }}" data-label {{ utility.show_attrs(attrs) }}>
-  {{- label | mdInline | safe -}}
-  {%- if required -%}
-    <span aria-hidden="true">*</span>
-    <span class="sr-only">required</span>
-  {%- endif -%}
-</label>
+{% macro field_label(label, id, required = false, attrs = {}) %}
+  <label for="{{ id }}" data-label {{ utility.show_attrs(attrs) }}>
+    {{- label | mdInline | safe -}}
+    {%- if required -%}
+      <span aria-hidden="true">*</span>
+      <span class="sr-only">required</span>
+    {%- endif -%}
+  </label>
 {% endmacro %}
 
 {# @docs
@@ -284,41 +272,32 @@ params:
     type: object
     default: '{}'
 #}
-{% macro field(
-  label,
-  type='text',
-  required=false,
-  name=none,
-  id=none,
-  options=none,
-  field_attrs={},
-  input_attrs={}
-) %}
+{% macro field(label, type = 'text', required = false, name = none, id = none, options = none, field_attrs = {}, input_attrs = {}) %}
   {%- set name = name or label | slug -%}
   {%- set id = id or ['field', name] | join('-') -%}
   {%- set content -%}
-    {{- field_label(
+  {{- field_label(
       label=label,
       id=id,
       required=required
     ) -}}
-    {%- if (type == 'select') -%}
-      {{- select(
+  {%- if (type == 'select') -%}
+    {{- select(
         id=id,
         options=options,
         required=required,
         name=name,
         attrs=input_attrs
       ) -}}
-    {%- else -%}
-      {{- input(
+  {%- else -%}
+    {{- input(
         id=id,
         type=type,
         required=required,
         name=name,
         attrs=input_attrs
       ) -}}
-    {%- endif -%}
+  {%- endif -%}
   {%- endset -%}
 
   {{- wrapper(
